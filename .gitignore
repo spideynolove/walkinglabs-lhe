@@ -216,3 +216,17 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# user define
+.env
+output
+data
+
+.agents
+.claude
+
+docs
+guide
+materials
+scripts
+main
