@@ -219,14 +219,14 @@ __marimo__/
 
 # user define
 .env
-output
-data
+/output
+/data
 
-.agents
-.claude
+/.agents
+/.claude
 
-docs
-guide
-materials
-scripts
-main
+/docs
+/guide
+/materials
+/scripts
+/main

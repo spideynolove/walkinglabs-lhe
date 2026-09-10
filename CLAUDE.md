@@ -2,9 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Overview
+
+**Name:** walkinglabs-lhe
+**Type:** AI-agent workflow practice workspace
+**Description:** A local workspace for hands-on harness engineering practice, source-code exploration, and Claude Code/Codex workflow experiments.
+
+This is not the upstream course repository and not a production application.
+
 ## Role & Responsibilities
 
-Your role is to analyze user requirements, delegate tasks to appropriate sub-agents, and ensure cohesive delivery of features that meet specifications and architectural standards.
+Your role is to help inspect source material, summarize external repos, run bounded practice tasks, and keep this workspace useful without turning copied templates or generated research into review noise.
 
 ## Workflows
 
@@ -31,8 +39,8 @@ When a tool call is blocked by the privacy-block hook, the output contains a JSO
 1. Parse the JSON from the hook output
 2. Use `AskUserQuestion` with the question data from the JSON
 3. Based on user's selection:
-   - **"Yes, approve access"** → Use `bash cat "filepath"` to read the file (bash is auto-approved)
-   - **"No, skip this file"** → Continue without accessing the file
+   - **"Yes, approve access"** -> Use `bash cat "filepath"` to read the file
+   - **"No, skip this file"** -> Continue without accessing the file
 
 **Example AskUserQuestion call:**
 ```json
@@ -57,32 +65,42 @@ When running Python scripts from `.claude/skills/`, use the venv Python interpre
 - **Linux/macOS:** `.claude/skills/.venv/bin/python3 scripts/xxx.py`
 - **Windows:** `.claude\skills\.venv\Scripts\python.exe scripts\xxx.py`
 
-This ensures packages installed by `install.sh` (google-genai, pypdf, etc.) are available.
+This ensures packages installed by `install.sh` are available.
 
 **IMPORTANT:** When scripts of skills failed, don't stop, try to fix them directly.
 
 ## [IMPORTANT] Consider Modularization
 - If a code file exceeds 200 lines of code, consider modularizing it
 - Check existing modules before creating new
-- Analyze logical separation boundaries (functions, classes, concerns)
-- Use kebab-case naming with long descriptive names, it's fine if the file name is long because this ensures file names are self-documenting for LLM tools (Grep, Glob, Search)
-- Write descriptive code comments
+- Analyze logical separation boundaries
+- Use kebab-case naming with long descriptive names when adding files
 - After modularization, continue with main task
 - When not to modularize: Markdown files, plain text files, bash scripts, configuration files, environment variables files, etc.
 
 ## Documentation Management
 
-We keep all important docs in `./docs` folder and keep updating them, structure like below:
+Keep durable project guidance in tracked root files first:
 
 ```
-./docs
-├── project-overview-pdr.md
-├── code-standards.md
-├── codebase-summary.md
-├── design-guidelines.md
-├── deployment-guide.md
-├── system-architecture.md
-└── project-roadmap.md
+README.md
+AGENTS.md
+CLAUDE.md
 ```
+
+Use ignored `docs` material as copied reference or generated research unless the user asks to promote a file into tracked documentation.
 
 **IMPORTANT:** *MUST READ* and *MUST COMPLY* all *INSTRUCTIONS* in project `./CLAUDE.md`, especially *WORKFLOWS* section is *CRITICALLY IMPORTANT*, this rule is *MANDATORY. NON-NEGOTIABLE. NO EXCEPTIONS. MUST REMEMBER AT ALL TIMES!!!*
+
+## Repository-Specific Purpose
+
+Use this repo for immediate hands-on practice around harness engineering, especially `https://github.com/walkinglabs/learn-harness-engineering` when that is the active target.
+
+Use `repomix` when the task is to understand a large external repository. Store large external checkouts, generated summaries, and scratch material under ignored folders such as `main`, `materials`, `data`, or `output`.
+
+`.gitignore` affects git tracking and git-derived review context. It does not prevent Claude from reading ignored files when the task names them directly.
+
+`.claude/.ckignore` affects ClaudeKit context collection. It does not affect git or Codex review unless a tool explicitly reads it.
+
+Keep Codex review bounded to tracked changes or named files. Always add focus text to `/codex:adversarial-review`.
+
+Treat `.claude`, `.agents`, `docs`, `guide`, `scripts`, and `plans` as local ClaudeKit or research material by default, not as application code. `plans/reports` is generated research history; read it only when asked about prior research or provenance.
